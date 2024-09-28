@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso con Mayor Promedio</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #2C3E50;
+            background: linear-gradient(to right, #4CA1AF, #2C3E50);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #F39C12;
+            text-shadow: 0 0 5px #F39C12;
+        }
+
+        label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #E74C3C;
+        }
+
+        #resultados {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: #ECF0F1;
+        }
+        .back-button a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button a:hover {
+            background: #E74C3C;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Curso con Mayor Promedio</h1>
+        <div id="cursos">
+            <!-- Inputs para notas de cada curso se generan dinámicamente -->
+        </div>
+        <button type="button" onclick="calcularMayorPromedio()">Calcular Curso con Mayor Promedio</button>
+        <div id="resultados"></div>
+        <br>
+    <script>
+        const cursos = {
+            "Estructura de datos": [],
+            "Desarrollo de Aplicaciones": [],
+            "Ingeniería de Software": [],
+            "Administración de Base de Datos": [],
+            "Inglés IV": []
+        };
+
+        // Generar campos de entrada para cada curso y alumno
+        window.onload = function () {
+            const cursosDiv = document.getElementById("cursos");
+
+            for (let curso in cursos) {
+                let cursoDiv = document.createElement("div");
+                cursoDiv.className = "curso";
+
+                let label = document.createElement("label");
+                label.innerText = `Notas para ${curso}:`;
+                cursoDiv.appendChild(label);
+
+                for (let i = 0; i < 5; i++) {
+                    let input = document.createElement("input");
+                    input.type = "number";
+                    input.placeholder = `Nota ${i + 1}`;
+                    input.className = "nota";
+                    input.dataset.curso = curso;
+                    cursoDiv.appendChild(input);
+                }
+
+                cursosDiv.appendChild(cursoDiv);
+            }
+        };
+
+        function calcularMayorPromedio() {
+            // Limpiar los cursos y agregar nuevas notas ingresadas
+            for (let curso in cursos) {
+                cursos[curso] = [];
+            }
+
+            const inputs = document.querySelectorAll("input.nota");
+
+            inputs.forEach(input => {
+                const curso = input.dataset.curso;
+                const nota = parseFloat(input.value);
+                if (!isNaN(nota)) {
+                    cursos[curso].push(nota);
+                }
+            });
+
+            // Calcular promedios
+            let promedios = {};
+            for (let curso in cursos) {
+                if (cursos[curso].length === 5) {
+                    let promedio = cursos[curso].reduce((acc, curr) => acc + curr, 0) / cursos[curso].length;
+                    promedios[curso] = promedio;
+                } else {
+                    alert(`Debes ingresar las notas completas para el curso de ${curso}`);
+                    return;
+                }
+            }
+
+            // Obtener el mayor promedio
+            let mayorPromedio = Math.max(...Object.values(promedios));
+            let cursosConMayorPromedio = Object.keys(promedios).filter(curso => promedios[curso] === mayorPromedio);
+
+            // Mostrar el resultado
+            let resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.innerHTML = `Curso(s) con el mayor promedio (${mayorPromedio.toFixed(2)}): ${cursosConMayorPromedio.join(', ')}`;
+        }
+    </script>
+    <div class="back-button">
+        <a href="inddex.html">Regresar al inicio</a> 
+    </div> 
+</div>
+</body>
+
+</html>

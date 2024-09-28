@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar el Arreglo</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #2C3E50;
+            background: linear-gradient(to right, #4CA1AF, #2C3E50);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #F39C12;
+            text-shadow: 0 0 5px #F39C12;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #E74C3C;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .back-button a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button a:hover {
+            background: #E74C3C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar el Arreglo</h1>
+        <input type="text" id="elementInput" placeholder="Ingrese el elemento a buscar">
+        <button onclick="buscarElemento()">Buscar Elemento</button>
+        <br><br>
+        <div id="resultado"></div>  
+    
+    <script>
+        // Definir un arreglo de dos dimensiones
+        const arreglo2D = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ];
+
+        function buscarElemento() {
+            // Obtener el valor del input
+            let input = document.getElementById("elementInput").value;
+            
+            // Validar que el input sea un número
+            if (isNaN(input) || input.trim() === "") {
+                document.getElementById("resultado").innerText = "Error: Por favor ingrese un número válido.";
+                return;
+            }
+            
+            let elemento = parseInt(input); // Convertir a número entero
+            let encontrado = false;
+            let listaResultados = "";
+
+            // Recorrer el arreglo de dos dimensiones
+            for (let i = 0; i < arreglo2D.length; i++) {
+                for (let j = 0; j < arreglo2D[i].length; j++) {
+                    if (arreglo2D[i][j] === elemento) {
+                        encontrado = true;
+                        listaResultados += "<li>Elemento encontrado en la posición: [" + i + "][" + j + "]</li>";
+                        break; // Salir del bucle interno
+                    }
+                }
+                if (encontrado) break; // Salir del bucle externo si se encontró el elemento
+            }
+
+            // Mostrar la matriz completa en forma de tabla
+            let matrizHtml = "<table border='1'>";
+            for (let i = 0; i < arreglo2D.length; i++) {
+                matrizHtml += "<tr>";
+                for (let j = 0; j < arreglo2D[i].length; j++) {
+                    matrizHtml += "<td>" + arreglo2D[i][j] + "</td>";
+                }
+                matrizHtml += "</tr>";
+            }
+            matrizHtml += "</table>";
+
+            // Mostrar el resultado en forma de lista
+            if (encontrado) {
+                document.getElementById("resultado").innerHTML = matrizHtml + "<ul>" + listaResultados + "</ul>";
+            } else {
+                document.getElementById("resultado").innerHTML = matrizHtml + "<ul><li>Elemento no encontrado: " + elemento + "</li></ul>";
+            }
+        }
+    </script>
+    <div class="back-button">
+        <a href="inddex.html">Regresar al inicio</a> 
+    </div> 
+</div> 
+</body>
+</html>

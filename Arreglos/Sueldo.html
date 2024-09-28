@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresos de Empleados</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #2C3E50;
+            background: linear-gradient(to right, #4CA1AF, #2C3E50);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: scroll;
+            scrollbar-width: thin; /* Firefox: define un ancho de scroll pequeño */
+            scrollbar-color: transparent transparent; /* Firefox: color de barra invisible */
+        }
+
+        /* Para ocultar el scroll en otros navegadores */
+        .container::-webkit-scrollbar {
+            width: 0.5em;
+            background: transparent;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #F39C12;
+            text-shadow: 0 0 10px #F39C12;
+        }
+
+        .empleado {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        input::placeholder {
+            color: #e0e0e0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #E74C3C;
+        }
+
+        #resultados {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: #ECF0F1;
+        }
+        .back-button a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button a:hover {
+            background: #E74C3C;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registro de Ingresos de Empleados</h1>
+        <div id="empleadosDiv">
+            <!-- Inputs para empleados y sueldos se generan dinámicamente -->
+        </div>
+        <button type="button" onclick="calcularSueldos()">Calcular Ingresos</button>
+        <div id="resultados"></div>
+    
+
+    <script>
+        const empleados = [];
+        const sueldos = [];
+
+        // Generar campos de entrada para los empleados y sus sueldos
+        window.onload = function () {
+            const empleadosDiv = document.getElementById("empleadosDiv");
+
+            for (let i = 0; i < 5; i++) {
+                let empleadoDiv = document.createElement("div");
+                empleadoDiv.className = "empleado";
+
+                let inputNombre = document.createElement("input");
+                inputNombre.type = "text";
+                inputNombre.placeholder = `Nombre del empleado ${i + 1}`;
+                inputNombre.className = "nombreEmpleado";
+                inputNombre.dataset.index = i;
+
+                empleadoDiv.appendChild(inputNombre);
+
+                for (let j = 0; j < 5; j++) {
+                    let inputSueldo = document.createElement("input");
+                    inputSueldo.type = "number";
+                    inputSueldo.placeholder = `Sueldo quincena ${j + 1}`;
+                    inputSueldo.className = "sueldo";
+                    inputSueldo.dataset.index = `${i}-${j}`;
+
+                    empleadoDiv.appendChild(inputSueldo);
+                }
+
+                empleadosDiv.appendChild(empleadoDiv);
+            }
+        };
+
+        function calcularSueldos() {
+            // Limpiar los empleados y sueldos
+            empleados.length = 0;
+            sueldos.length = 0;
+
+            const nombres = document.querySelectorAll("input.nombreEmpleado");
+            const sueldosInputs = document.querySelectorAll("input.sueldo");
+
+            nombres.forEach(input => {
+                const nombre = input.value.trim();
+                if (nombre) {
+                    empleados.push(nombre);
+                }
+            });
+
+            for (let i = 0; i < empleados.length; i++) {
+                let sueldoEmpleado = [];
+
+                for (let j = 0; j < 5; j++) {
+                    const sueldoInput = document.querySelector(`input.sueldo[data-index="${i}-${j}"]`);
+                    const sueldo = parseFloat(sueldoInput.value);
+
+                    if (!isNaN(sueldo)) {
+                        sueldoEmpleado.push(sueldo);
+                    } else {
+                        alert(`Debes ingresar todos los sueldos para el empleado ${empleados[i]}`);
+                        return;
+                    }
+                }
+
+                sueldos.push(sueldoEmpleado);
+            }
+
+            // Calcular los ingresos acumulados
+            let acumulados = sueldos.map(sueldoEmpleado => sueldoEmpleado.reduce((acc, curr) => acc + curr, 0));
+            let totalPagado = acumulados.reduce((acc, curr) => acc + curr, 0);
+            let mayorIngreso = Math.max(...acumulados);
+            let empleadoMayorIngreso = empleados[acumulados.indexOf(mayorIngreso)];
+
+            // Mostrar resultados
+            let resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.innerHTML = `
+                <p>Total pagado en sueldos: <strong>${totalPagado.toFixed(2)}</strong></p>
+                <p>Empleado con mayor ingreso acumulado: <strong>${empleadoMayorIngreso}</strong> (<strong>${mayorIngreso.toFixed(2)}</strong>)</p>
+            `;
+        }
+    </script>
+        <div class="back-button">
+            <a href="inddex.html">Regresar al inicio</a> 
+        </div>
+    </div> 
+</body>
+
+</html>

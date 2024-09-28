@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación de Pesos</title>
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    background: #2C3E50;
+    background: linear-gradient(to right, #4CA1AF, #2C3E50);
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #F39C12;
+    text-shadow: 0 0 5px #F39C12;
+}
+
+label {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #F39C12;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #E74C3C;
+}
+
+#resultados {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #ECF0F1;
+}
+
+.back-button {
+    margin-top: 20px;
+}
+
+.back-button a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #F39C12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button a:hover {
+            background: #E74C3C;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Pesos</h1>
+        <form id="pesoForm">
+            <label for="peso">Ingrese el peso de la persona:</label>
+            <input type="number" id="peso" step="0.1" required>
+            <button type="button" onclick="agregarPeso()">Agregar Peso</button>
+        </form>
+        <div id="resultados"></div>
+        <button id="calcular" onclick="calcularPromedio()" disabled>Calcular Promedio</button>
+
+    <script>
+        let pesos = [];
+
+function agregarPeso() {
+    const pesoInput = document.getElementById('peso');
+    const peso = parseFloat(pesoInput.value);
+
+    if (!isNaN(peso) && pesos.length < 10) {
+        pesos.push(peso);
+        pesoInput.value = '';
+        document.getElementById('resultados').innerHTML = `Pesos ingresados: ${pesos.join(', ')}`;
+        if (pesos.length === 10) {
+            document.getElementById('calcular').disabled = false;
+        }
+    } else if (pesos.length >= 10) {
+        alert('Ya has ingresado 10 pesos.');
+    }
+}
+
+function calcularPromedio() {
+    if (pesos.length === 10) {
+        const suma = pesos.reduce((a, b) => a + b, 0);
+        const promedio = suma / pesos.length;
+
+        const mayores = pesos.filter(p => p > promedio).length;
+        const menores = pesos.filter(p => p < promedio).length;
+
+        document.getElementById('resultados').innerHTML += `
+            <p>Promedio de pesos: ${promedio.toFixed(2)} kg</p>
+            <p>Personas con peso mayor al promedio: ${mayores}</p>
+            <p>Personas con peso menor al promedio: ${menores}</p>
+        `;
+    }
+}
+    </script>
+    <div class="back-button">
+        <a href="inddex.html">Regresar al inicio</a> 
+    </div> 
+</div>
+</body>
+</html>

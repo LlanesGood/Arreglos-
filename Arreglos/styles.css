@@ -1,0 +1,93 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #2C3E50;  /* Fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4CA1AF, #2C3E50); 
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+.menu-header {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #F39C12;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.menu-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 10px #F39C12, 0 0 15px #F39C12, 0 0 20px #F39C12;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+.menu-item {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+}
+
+.menu-item-content {
+    padding: 20px;
+}
+
+.menu-item-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #F39C12;
+    text-shadow: 0 0 5px #F39C12;
+    margin-bottom: 10px;
+}
+
+.menu-item-link {
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(90deg, #F39C12, #E74C3C);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.4s ease;
+}
+
+.menu-item-link:hover {
+    background: linear-gradient(90deg, #E74C3C, #F39C12);
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    color: #F39C12;
+    padding: 20px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
+}
+
+
+.row span {
+    margin: 0 15px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00C9FF;
+}
